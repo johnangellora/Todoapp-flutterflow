@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/yourusername/your-repo/schemas/users.schema.json",
+  "title": "Firestore Users Collection Schema",
+  "description": "Schema for user documents in Firestore ToDo app",
+  "type": "object",
+  "properties": {
+    "birthdate": {
+      "type": "object",
+      "description": "Firestore Timestamp - User's birthdate",
+      "properties": {
+        "_seconds": {
+          "type": "integer",
+          "description": "Seconds since Unix epoch",
+          "minimum": -62135596800,
+          "maximum": 253402300799
+        },
+        "_nanoseconds": {
+          "type": "integer",
+          "description": "Nanoseconds component (0-999,999,999)",
+          "minimum": 0,
+          "maximum": 999999999
+        }
+      },
+      "required": ["_seconds", "_nanoseconds"],
+      "additionalProperties": false
+    },
+    "created_time": {
+      "type": "object",
+      "description": "Firestore Timestamp - When the user account was created",
+      "properties": {
+        "_seconds": {
+          "type": "integer",
+          "description": "Seconds since Unix epoch",
+          "minimum": 0
+        },
+        "_nanoseconds": {
+          "type": "integer",
+          "description": "Nanoseconds component (0-999,999,999)",
+          "minimum": 0,
+          "maximum": 999999999
+        }
+      },
+      "required": ["_seconds", "_nanoseconds"],
+      "additionalProperties": false
+    },
+    "display_name": {
+      "type": "string",
+      "description": "User's display name",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "email": {
+      "type": "string",
+      "description": "User's email address",
+      "format": "email",
+      "maxLength": 254
+    },
+    "hometown": {
+      "type": "string",
+      "description": "User's hometown",
+      "maxLength": 100
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "URL to user's profile photo",
+      "format": "uri",
+      "maxLength": 2000
+    },
+    "uid": {
+      "type": "string",
+      "description": "User's Firebase Authentication UID",
+      "pattern": "^[a-zA-Z0-9_-]{28}$",
+      "minLength": 28,
+      "maxLength": 28
+    }
+  },
+  "required": [
+    "created_time",
+    "display_name", 
+    "email",
+    "uid"
+  ],
+  "additionalProperties": false
+}
