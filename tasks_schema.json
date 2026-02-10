@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/yourusername/your-repo/schemas/tasks.schema.json",
+  "title": "Firestore Tasks Collection Schema",
+  "description": "Schema for task documents in Firestore ToDo app",
+  "type": "object",
+  "properties": {
+    "completed": {
+      "type": "boolean",
+      "description": "Whether the task has been completed"
+    },
+    "created": {
+      "type": "object",
+      "description": "Firestore Timestamp - When the task was created",
+      "properties": {
+        "_seconds": {
+          "type": "integer",
+          "description": "Seconds since Unix epoch",
+          "minimum": 0
+        },
+        "_nanoseconds": {
+          "type": "integer",
+          "description": "Nanoseconds component (0-999,999,999)",
+          "minimum": 0,
+          "maximum": 999999999
+        }
+      },
+      "required": ["_seconds", "_nanoseconds"],
+      "additionalProperties": false
+    },
+    "details": {
+      "type": "string",
+      "description": "Detailed description of the task",
+      "maxLength": 1000
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the task",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "user": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Firestore Document Reference path to the user document",
+          "pattern": "^users/[a-zA-Z0-9_-]{28}$"
+        },
+        {
+          "type": "object",
+          "description": "Firestore Document Reference object format",
+          "properties": {
+            "__type__": {
+              "type": "string",
+              "const": "documentReference"
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^users/[a-zA-Z0-9_-]{28}$"
+            }
+          },
+          "required": ["__type__", "path"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Reference to the user who owns this task"
+    }
+  },
+  "required": [
+    "completed",
+    "created",
+    "title",
+    "user"
+  ],
+  "additionalProperties": false
+}
